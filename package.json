@@ -1,0 +1,27 @@
+{
+  "name": "ghostv",
+  "version": "1.0.0",
+  "description": "frontend framework",
+  "scripts": {
+    "install": "lerna bootstrap",
+    "new": "lerna create",
+    "pub": "lerna publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghosv/ghostv.git"
+  },
+  "keywords": [
+    "frontend",
+    "framework"
+  ],
+  "author": "ddosakura",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/ghosv/ghostv/issues"
+  },
+  "homepage": "https://github.com/ghosv/ghostv#readme",
+  "devDependencies": {
+    "lerna": "^3.16.4"
+  }
+}
