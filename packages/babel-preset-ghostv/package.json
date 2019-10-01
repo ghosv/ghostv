@@ -1,0 +1,32 @@
+{
+  "name": "@ghostv/babel-preset-ghostv",
+  "version": "0.0.0",
+  "description": "babel preset for @ghostv",
+  "keywords": [
+    "ghostv",
+    "babel-preset"
+  ],
+  "author": "sakuramo <sakuramo@tencent.com>",
+  "homepage": "https://github.com/ghosv/ghostv/tree/master/packages/babel-preset-ghostv#readme",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "lib/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghosv/ghostv.git"
+  },
+  "scripts": {
+    "dev": "tsc -w"
+  },
+  "bugs": {
+    "url": "https://github.com/ghosv/ghostv/issues"
+  },
+  "dependencies": {
+    "typescript": "^3.6.3",
+    "@ghostv/babel-plugin-transform-ghostv-jsx": "^0.0.0"
+  }
+}

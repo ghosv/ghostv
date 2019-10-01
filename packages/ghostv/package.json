@@ -1,0 +1,32 @@
+{
+  "name": "@ghostv/ghostv",
+  "version": "0.0.0",
+  "description": "ghostv frontend framework",
+  "keywords": [
+    "frontend",
+    "framework"
+  ],
+  "author": "sakuramo <sakuramo@tencent.com>",
+  "homepage": "https://github.com/ghosv/ghostv/tree/master/packages/ghostv#readme",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghosv/ghostv.git"
+  },
+  "scripts": {
+    "dev": "tsc -w"
+  },
+  "bugs": {
+    "url": "https://github.com/ghosv/ghostv/issues"
+  },
+  "dependencies": {
+    "typescript": "^3.6.3",
+    "snabbdom": "^0.7.3"
+  }
+}

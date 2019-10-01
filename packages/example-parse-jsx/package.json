@@ -1,0 +1,44 @@
+{
+  "name": "@ghostv/example-parse-jsx",
+  "version": "0.0.0",
+  "description": "example for `@ghostv/babel-preset-jsx`",
+  "keywords": [
+    "example",
+    "ghostv"
+  ],
+  "author": "sakuramo <sakuramo@tencent.com>",
+  "homepage": "https://github.com/ghosv/ghostv/tree/master/packages/example-parse-jsx#readme",
+  "license": "Apache-2.0",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/",
+    "index.html"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghosv/ghostv.git"
+  },
+  "scripts": {
+    "build": "webpack",
+    "babel": "babel src/index.js -o src/index.no-jsx.js"
+  },
+  "bugs": {
+    "url": "https://github.com/ghosv/ghostv/issues"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@ghostv/babel-preset-ghostv": "^0.0.0",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-server": "^3.8.1"
+  },
+  "dependencies": {
+    "@ghostv/babel-preset-ghostv": "^0.0.0",
+    "@ghostv/ghostv": "^0.0.0",
+    "core-js": "3"
+  }
+}
