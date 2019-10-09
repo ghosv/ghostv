@@ -7,10 +7,12 @@ module.exports = {
     mode: 'production',
     devtool: 'source-map',
 
+    entry: './src/index.jsx',
+
     module: {
         rules: [
             {
-                test: /\.js$/,
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
                 loader: "babel-loader"
             }

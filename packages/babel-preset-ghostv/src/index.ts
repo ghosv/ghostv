@@ -1,4 +1,4 @@
-import babelPluginTransformGhostvJsx from "@ghostv/babel-plugin-transform-ghostv-jsx"
+import babelPluginTransformGhostvJsx from "@ghostv/babel-plugin-transform-snabbdom-jsx"
 
 export default (_, { jsx = false } = {}) => {
     return {

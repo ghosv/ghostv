@@ -5,7 +5,7 @@ ghostv frontend framework
 ## Usage
 
 ```jsx
-import G, { useState } from 'ghostv'
+import GhostV, { useState } from '@ghostv/ghostv' // GhostV must be imported !
 
 const C = () => {
     const [ v, setV ] = useState(0)
@@ -15,7 +15,7 @@ const C = () => {
     </div>
 }
 
-G.render("#app", () => <div>
+GhostV.render("#app", () => <div>
     <h1>Hello World!</h1>
     <C />
 </div>)

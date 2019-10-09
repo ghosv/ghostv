@@ -21,7 +21,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "babel": "babel src/index.js -o src/index.no-jsx.js"
+    "babel": "babel src/index.jsx -o src/index.no-jsx.js"
   },
   "bugs": {
     "url": "https://github.com/ghosv/ghostv/issues"

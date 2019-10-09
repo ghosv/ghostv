@@ -1,13 +1,16 @@
 {
-  "name": "@ghostv/babel-preset-ghostv",
+  "name": "@ghostv/babel-plugin-transform-snabbdom-jsx",
   "version": "0.0.0",
-  "description": "babel preset for @ghostv",
+  "description": "transform jsx to snabbdom vdom",
   "keywords": [
-    "ghostv",
-    "babel-preset"
+    "babel",
+    "plugin",
+    "transform",
+    "jsx",
+    "snabbdom"
   ],
-  "author": "sakuramo <sakuramo@tencent.com>",
-  "homepage": "https://github.com/ghosv/ghostv/tree/master/packages/babel-preset-ghostv#readme",
+  "author": "Sakura Mo <moyinzi@outlook.com>",
+  "homepage": "https://github.com/ghosv/ghostv/tree/master/packages/babel-plugin-transform-snabbdom-jsx#readme",
   "license": "Apache-2.0",
   "main": "lib/index.js",
   "files": [
@@ -29,6 +32,8 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@ghostv/babel-plugin-transform-snabbdom-jsx": "^0.0.0"
+    "@babel/plugin-syntax-jsx": "^7.2.0",
+    "html-tags": "^3.1.0",
+    "svg-tags": "^1.0.0"
   }
 }
