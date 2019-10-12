@@ -7,7 +7,10 @@ import moduleClass from 'snabbdom/modules/class'
 import moduleProps from 'snabbdom/modules/props'
 import moduleStyle from 'snabbdom/modules/style'
 import moduleAttributes from 'snabbdom/modules/attributes'
+import moduleDataset from 'snabbdom/modules/dataset'
 import moduleEventListeners from 'snabbdom/modules/eventlisteners'
+
+import Snabbdom from 'snabbdom-pragma'
 
 const patch = init([
     moduleHero,
@@ -15,6 +18,7 @@ const patch = init([
     moduleProps,
     moduleStyle,
     moduleAttributes,
+    moduleDataset,
     moduleEventListeners
 ]);
 
@@ -38,7 +42,7 @@ function render(comp: GhostComponent, el: any) {
     if (!dom) {
         throw `Selector(${el}) not found`
     }
-    const node = comp()//createElement(comp, {})
+    const node = comp//createElement(comp, {})
     console.log(node)
     patch(toVNode(dom), node)
 }
@@ -58,48 +62,49 @@ function createElement(comp: GhostComponent | string, props: VNodeData | VNodeDa
         children = props
         props = {}
     }
-    if (props.reduce) {
-        props = (<VNodeData[]>props).reduce<VNodeData>((o: VNodeData, v: VNodeData) => {
-            const {
-                hero: oHero = {},
-                class: oClass = {},
-                style: oStyle = {},
-                // props: oProps = {},
-                attrs: oAttrs = {},
-                on: oOn = {},
-                hook: oHook = {},
-                dataset: oData = {},
-            }: any = o // TODO: use type check
-            const {
-                id: vID, // string | undefined
-                class: vClass1,
-                className: vClass2,
-                style: vStyle = {},
-                attrs: vAttrs = {},
-                on: vOn = {},
-                hook: vHook = {},
-                data: vData1 = {},
-                "data-": vData2 = {},
-                dataset: vData3 = {},
-                ...vs
-            } = v
-            return {
-                hero: {
-                    id: vID ? vID : oHero.id,
-                },
-                class: Object.assign(
-                    oClass,
-                    vClass1 ? handleClassName(vClass1) : {},
-                    vClass2 ? handleClassName(vClass2) : {},
-                ),
-                style: Object.assign(oStyle, vStyle),
-                attrs: Object.assign(oAttrs, vAttrs, vs),
-                on: Object.assign(oOn, vOn),
-                hook: Object.assign(oHook, vHook),
-                dataset: Object.assign(oData, vData1, vData2, vData3),
-            }
-        }, {})
+    if (!props.reduce) {
+        props = [props]
     }
+    props = (<VNodeData[]>props).reduce<VNodeData>((o: VNodeData, v: VNodeData) => {
+        const {
+            hero: oHero = {},
+            class: oClass = {},
+            style: oStyle = {},
+            // props: oProps = {},
+            attrs: oAttrs = {},
+            on: oOn = {},
+            hook: oHook = {},
+            dataset: oData = {},
+        }: any = o // TODO: use type check
+        const {
+            id: vID, // string | undefined
+            class: vClass1,
+            className: vClass2,
+            style: vStyle = {},
+            attrs: vAttrs = {},
+            on: vOn = {},
+            hook: vHook = {},
+            data: vData1 = {},
+            "data-": vData2 = {},
+            dataset: vData3 = {},
+            ...vs
+        } = v
+        return {
+            hero: {
+                id: vID ? vID : oHero.id,
+            },
+            class: Object.assign(
+                oClass,
+                vClass1 ? handleClassName(vClass1) : {},
+                vClass2 ? handleClassName(vClass2) : {},
+            ),
+            style: Object.assign(oStyle, vStyle),
+            attrs: Object.assign(oAttrs, vAttrs, vs),
+            on: Object.assign(oOn, vOn),
+            hook: Object.assign(oHook, vHook),
+            dataset: Object.assign(oData, vData1, vData2, vData3),
+        }
+    }, {})
     console.log(props)
     let c = undefined
     switch (typeof comp) {
@@ -119,7 +124,7 @@ function createElement(comp: GhostComponent | string, props: VNodeData | VNodeDa
 }
 
 export default {
-    createElement,
+    createElement: Snabbdom.createElement,
 
     render
 }

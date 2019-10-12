@@ -29,6 +29,7 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "snabbdom": "^0.7.3"
+    "snabbdom": "^0.7.3",
+    "snabbdom-pragma": "^2.8.0"
   }
 }

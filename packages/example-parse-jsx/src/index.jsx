@@ -2,75 +2,24 @@ import GhostV from "@ghostv/ghostv"
 
 //class A extends GhostV.Component {
 //    render() {
-//        return <button style="color: red;" />
+//        return <button style={{"color": "red"}} />
 //    }
 //}
-//function A() {
-//    return <button style="color: red;" />
-//}
+function A() {
+    return <button style={{"color": "red"}} />
+}
+A.comp = (props, children) => {
+    console.log(children, props)
+    return <div onClick={props["on-click"]}>Comp{children}</div>
+}
 
-function comp() {
-    const listeners = {}
-    const props = {
-        abc: "123",
-        class: {
-            b: true
-        }
-    }
-    const handle = () => console.log("handle")
-    const init = () => console.log("init")
-    return <div
-    on={listeners}
-        id="demo"
-        className="a n"
-        style={{width: "100px"}}
-        test={{...props}}
-        onClick={handle}
-        hookInit={init}
-        data-v="666"
-        { ...props }
-    >
-        <div>
-            <span>1.1cccvbb</span>
-            <span>1.2</span>
-            <span>1.3</span>
-        </div>
-        <div>2</div>
-        <div>3</div>
-    </div>
-    /* want:
-        createElement("A#demo.a", {
-            id: "demo", // direct
-            className: { // 合并
-                b: true
-            },
-            style: { // direct
-
-            },
-
-            props: {
-                test: {...props}
-            },
-            //attrs: {},
-
-            on: { // onClick, etc...
-                click: handle
-            },
-            hook: { // hookInit, etc...
-                init: init
-            },
-            dataset: { // data-v, etc...
-                v: "666"
-            }
-        }, ["xxx"])
-    */
-
-    /*
+function Comp() {
     const scope = {
         list: [
-            <A onClick=""></A>,
+            <A></A>,
             "xxoo",
-            //<A.comp></A.comp>
+            <A.comp x on-click={() => alert(5)}>1</A.comp>,
+            <A.comp y>2</A.comp>,
         ],
         tAttrs: {
             "data-a": true,
@@ -80,15 +29,17 @@ function comp() {
         }
     }
     const listeners = {
-        mouseMove: () => {
-            alert(1)
+        mousemove: () => {
+            console.log(1)
         }
     }
+    
+    
+    /*
+        on-click={() => alert(0)} */
     return <div
-        id="app"
         className="a b"
         on={listeners}
-        onClick={() => alert(0)}
         data-value={"id"+0}
         data-abc
         style={scope.styles}
@@ -97,9 +48,10 @@ function comp() {
         <input value="666"/>
         <h1 data-d="line">Hello World!</h1>
         <span className="good">--- --- ---</span>
-        { ...scope.list }
+        { scope.list }
     </div>
-    */
 }
 
-GhostV.render(comp, "#app") // TODO: replace with mount/unmount
+GhostV.render(<div id="app">
+    <Comp />
+</div>, "#app") // TODO: replace with mount/unmount
