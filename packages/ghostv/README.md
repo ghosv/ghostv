@@ -20,3 +20,6 @@ GhostV.render("#app", () => <div>
     <C />
 </div>)
 ```
+
++ TODO: comp
++ TODO: hook in snabbdom
