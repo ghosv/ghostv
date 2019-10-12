@@ -57,6 +57,51 @@ function handleClassName(classNames: string | object): object {
     return <object>cns
 }
 
+export type Component = Snabbdom.Component
+export type Children = Snabbdom.CircularChildren
+function createElement(sel: string | Component, data: null | VNodeData, ...children: Children[]): VNode {
+    if (data) {
+        const keys = Object.keys(data)
+        keys.forEach(k => {
+            let prop = k
+            const prefix = ["on", "hook"].find(el => prop.startsWith(el))
+            if (prefix && prefix !== prop) {
+                prop = prop.replace(new RegExp(`^${prefix}\-?`), '')
+                prop = prop[0].toLowerCase() + prop.substr(1)
+                if (k !== prop) {
+                    data[prefix] || (data[prefix] = {})
+                    data[prefix][prop] = data[k]
+                    delete data[k]
+                }
+            }
+        });
+        if (typeof data.className !== "string") {
+            data.class = data.className
+            delete data.className
+        }
+        if (typeof data.style === "string") {
+            const styles = (<string>data.style).split(";")
+            const style: any = {}
+            styles.forEach(el => {
+                const [k, v] = el.trim().split(":")
+                if (k && v) {
+                    let keys = k.trim().split("-")
+                    keys = keys.map((v, i) => {
+                        if (i === 0) {
+                            return v
+                        }
+                        return v[0].toUpperCase() + v.substr(1)
+                    })
+                    style[keys.join("")] = v.trim()
+                }
+            })
+            data.style = style
+        }
+    }
+    return Snabbdom.createElement(sel, data, ...children)
+}
+
+/*
 function createElement(comp: GhostComponent | string, props: VNodeData | VNodeData[] | VNode[] = {}, children: VNode[] = []): VNode {
     if (props.reduce && props.length > 0 && (props[0].vnode || typeof props[0] === "string")) {
         children = props
@@ -122,9 +167,10 @@ function createElement(comp: GhostComponent | string, props: VNodeData | VNodeDa
     c.vnode = true
     return c
 }
+*/
 
 export default {
-    createElement: Snabbdom.createElement,
+    createElement,
 
     render
 }

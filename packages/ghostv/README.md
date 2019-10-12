@@ -22,6 +22,6 @@ GhostV.render("#app", () => <div>
 ```
 
 TODO: 
-+ [] style string 支持
-+ [] comp
-+ [] hook in snabbdom
++ [x] style string 支持
++ [ ] comp
++ [ ] hook in snabbdom
