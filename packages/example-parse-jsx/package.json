@@ -20,7 +20,7 @@
     "url": "git+https://github.com/ghosv/ghostv.git"
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --hot",
     "build": "cross-env NODE_ENV=production webpack",
     "babel": "babel src/index.jsx -o src/index.no-jsx.js"
   },

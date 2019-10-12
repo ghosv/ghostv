@@ -31,7 +31,7 @@ function comp() {
         { ...props }
     >
         <div>
-            <span>1.1</span>
+            <span>1.1cccvbb</span>
             <span>1.2</span>
             <span>1.3</span>
         </div>
