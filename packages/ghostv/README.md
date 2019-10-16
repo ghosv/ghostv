@@ -15,10 +15,10 @@ const C = () => {
     </div>
 }
 
-GhostV.render("#app", () => <div>
+GhostV.render(<div>
     <h1>Hello World!</h1>
     <C />
-</div>)
+</div>, "#app")
 ```
 
 TODO: 
