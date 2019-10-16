@@ -23,5 +23,9 @@ GhostV.render("#app", () => <div>
 
 TODO: 
 + [x] style string 支持
-+ [ ] comp
++ [x] comp
++ [ ] ctx
+    + [x] 基本功能
+    + [ ] 获取最近 Provider
 + [ ] hook in snabbdom
+    + [x] useState

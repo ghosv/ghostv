@@ -22,7 +22,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --hot",
     "build": "cross-env NODE_ENV=production webpack",
-    "babel": "babel src/index.jsx -o src/index.no-jsx.js"
+    "babel": "babel src/index.jsx -o src/index.no-jsx.js & babel src/App.jsx -o src/App.no-jsx.js"
   },
   "bugs": {
     "url": "https://github.com/ghosv/ghostv/issues"

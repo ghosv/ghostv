@@ -1,0 +1,147 @@
+import GhostV, {
+    useReducer,
+    useContext,
+    useState,
+    useEffect,
+} from "@ghostv/ghostv"
+
+/** ========= **/
+
+const initialState = 0;
+const myContext = GhostV.createContext();
+
+function reducer(state, action) {
+    switch (action.type) {
+        case "reset":
+            return initialState;
+        case "increment":
+            return { count: state.count + 1 };
+        case "decrement":
+            return { count: state.count - 1 };
+        default:
+            return state;
+    }
+}
+
+const ContextProvider = props => {
+    const [state, dispatch] = useReducer(reducer, { count: 0 });
+    return (
+        <myContext.Provider value={{ state, dispatch }}>
+            {props.children}
+        </myContext.Provider>
+    );
+};
+
+// export { reducer, myContext, ContextProvider };
+// import { myContext } from "./reducer";
+
+function Counter() {
+    const { state, dispatch } = useContext(myContext);
+    return (
+        <div>
+            Counter Count: {state.count}
+            <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
+            <button onClick={() => dispatch({ type: "increment" })}>+</button>
+            <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+        </div>
+    );
+}
+
+// export default Counter;
+// import { myContext } from "./reducer";
+
+function CounterTest() {
+    const { state, dispatch } = useContext(myContext);
+    return (
+        <div>
+            CounterTest Count: {state.count}
+            <button onClick={() => dispatch({ type: "reset" })}>Reset</button>
+            <button onClick={() => dispatch({ type: "increment" })}>+</button>
+            <button onClick={() => dispatch({ type: "decrement" })}>-</button>
+        </div>
+    );
+}
+
+// export default CounterTest;
+
+/** ========= **/
+
+//class A extends GhostV.Component {
+//    render() {
+//        return <button style={{"color": "red"}} />
+//    }
+//}
+function A() {
+    return <button style="min-width: 100px; max-height: 20px" />
+}
+A.comp = (props, children) => {
+    console.log(children, props)
+    // TODO: on.click -> onClick
+    return <div onClick={props.on ? props.on.click : null}>Comp{children}</div>
+}
+
+function B() {
+    const [countA, setA] = useState(0)
+    const [countB, setB] = useState(0)
+    useEffect(() => {
+        document.title = `${countA + countB}`
+    }, [countA])
+    return <div>
+        <hr />
+        <div>`click A ${countA} times`</div>
+        <button onClick={() => setA(countA + 1)}>A</button>
+        <div>`click B ${countB} times`</div>
+        <button onClick={() => setB(countB + 1)}>B</button>
+        <hr />
+    </div>
+}
+
+function Comp() {
+    const scope = {
+        list: [
+            <A></A>,
+            <span className={{ c: true }}>666</span>,
+            "xxoo",
+            <A.comp key="1" x onClick={() => alert(5)}>
+                <A />
+            </A.comp>,
+            <A.comp key="2" y on-click={() => alert(21)}>2</A.comp>,
+        ],
+        tAttrs: {
+            "data-a": true,
+        },
+        styles: {
+            width: "100%"
+        }
+    }
+    const listeners = {
+        mousemove: () => {
+            console.log(1)
+        }
+    }
+
+    return <div
+        className="a b"
+        on={listeners}
+        on-click={() => alert(0)}
+        data-value={"id" + 0}
+        data-abc
+        hook-init={() => { console.log("init") }}
+        style={scope.styles}
+        {...scope.tAttrs}
+    >
+        <input value="666" />
+        <h1 data-d="line">Hello World!</h1>
+        <span className="good">--- --- ---</span>
+        {scope.list}
+    </div>
+}
+
+GhostV.render(<div id="app">
+    <ContextProvider>
+        <Counter />
+        <CounterTest />
+    </ContextProvider>,
+    {/*<B />,*/}
+    <Comp />
+</div>, "#app") // TODO: replace with mount/unmount

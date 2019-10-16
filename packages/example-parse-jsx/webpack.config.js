@@ -3,6 +3,8 @@
 // 如果是开发环境，即 mode: 'development'，用 devtool: 'cheap-module-eval-source-map' 比较好，
 // 如果是生产环境，即 mode: 'production'，用 devtool: 'cheap-module-source-map' 比较好。
 
+const webpack = require('webpack')
+const path = require('path')
 const HTMLPlugin = require('html-webpack-plugin')
 
 module.exports = {
@@ -10,7 +12,7 @@ module.exports = {
     devtool: 'source-map',
 
     devServer: {
-        port: 3000
+        port: 3000,
     },
 
     entry: './src/index.jsx',
@@ -21,11 +23,21 @@ module.exports = {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
                 loader: "babel-loader"
-            }
-        ]
+            },
+        ],
+    },
+
+    resolve: {
+        extensions: ['.js', '.jsx'],
+        alias: {
+            '@': path.resolve(path.join(__dirname, '../src')),
+        },
     },
 
     plugins: [
+        // new webpack.ProvidePlugin({
+        //     GhostV: '@ghostv/ghostv',
+        // }),
         new HTMLPlugin({ // 打包输出HTML
             title: 'Example',
             minify: { // 压缩HTML文件
@@ -34,7 +46,7 @@ module.exports = {
                 minifyCSS: true// 压缩内联css
             },
             filename: 'index.html',
-            template: 'index.html'
+            template: 'index.html',
         }),
     ],
 }
