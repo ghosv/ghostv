@@ -1,5 +1,6 @@
 import GhostV, {
     useState,
+    useRef,
 } from "@ghostv/ghostv"
 
 const Input = ({ add }) => {
@@ -19,7 +20,6 @@ export default () => {
         update([...list, item])
     }
     
-
     const [mode, setMode] = useState(0)
     const showList = ((list) => {
         switch (mode) {
@@ -41,7 +41,7 @@ export default () => {
             }} style="border: 1px solid red;border-radius: 50%;margin-left: 20px;">X</span>
         </li>
     })
-    return <div style="margin-top: 100px;margin-left: 50px;">
+    return <div id="app" style="margin-top: 100px;margin-left: 50px;">
         <Input add={add} />
         <button onClick={() => { setMode(0) }}>All</button>
         <button onClick={() => { setMode(1) }}>Done</button>

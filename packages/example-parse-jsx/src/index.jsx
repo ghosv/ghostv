@@ -7,11 +7,32 @@ import GhostV, {
     ghostVApp,
 } from "@ghostv/ghostv"
 
-import App from "./App.jsx"
-
 GhostV.render(<div>
-    <App />
+    {{
+        // $$typeof: Symbol.for("ghost.element"),
+        type: 'div',
+        props: {
+            children: [
+                "Hello World!"
+            ],
+        },
+        key: null,
+    }}
 </div>, "#app")
+
+import App from "./App"
+import EffectDemo from "./EffectDemo"
+
+//GhostV.render(<App />, "#app")
+//let unmount = GhostV.render(<App />, "#app")
+//if (module.hot) {
+//    module.hot.accept(["./App.jsx"], () => {
+//        console.log("TODO")
+//        unmount()
+//        const App = require("./App.jsx")
+//        unmount = GhostV.render(<App />, "#app")
+//    })
+//}
 
 function GG({ children, ...props }) {
     const [v, setV] = app.useState(0)
