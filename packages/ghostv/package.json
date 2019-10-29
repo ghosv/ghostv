@@ -26,9 +26,12 @@
     "url": "https://github.com/ghosv/ghostv/issues"
   },
   "devDependencies": {
+    "@types/extend": "^3.0.1",
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "snabbdom": "^0.7.3"
+    "extend": "^3.0.2",
+    "snabbdom": "^0.7.3",
+    "snabbdom-pragma": "^2.8.0"
   }
 }

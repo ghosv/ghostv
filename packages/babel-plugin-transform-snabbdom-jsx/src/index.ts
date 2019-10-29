@@ -5,7 +5,7 @@ import svgTags from 'svg-tags'
 const needSpread = 'needSpread'
 
 const rootAttributes = ['id', 'className', 'style', 'key', 'ref']
-const prefixes = ['props', 'on', 'hook', 'attrs']
+const prefixes = ['on', 'hook', 'data-']
 
 /*** helper ***/
 
@@ -268,14 +268,6 @@ const getChildren = (t, paths, hExpr) =>
         .filter(el => el !== null && !t.isJSXEmptyExpression(el))
 
 /**
-* Get attributes from Array of JSX attributes
-* @param t
-* @param paths Array<JSXAttribute | JSXSpreadAttribute>
-* @param tag Identifier | StringLiteral | MemberExpression
-* @param openingElementPath JSXOpeningElement
-* @returns Array<Expression>
-*/
-/**
  * Get attributes from Array of JSX attributes
  * @param t
  * @param paths Array<JSXAttribute | JSXSpreadAttribute>
@@ -283,11 +275,11 @@ const getChildren = (t, paths, hExpr) =>
  * @param openingElementPath JSXOpeningElement
  * @returns Array<Expression>
  */
-const getAttributes = (t, paths, tag, openingElementPath) => {
-    const attributesArray = []
+const getAttributes = (t: any, paths: any, tag: any, openingElementPath: any) => {
+    const attributesArray: any[] = []
     let attributes = {}
 
-    paths.forEach(path => {
+    paths.forEach((path: any) => {
         if (t.isJSXAttribute(path)) {
             const possibleSpreadNode = parseAttributeJSXAttribute(t, path, attributes)
             if (possibleSpreadNode) {
@@ -308,12 +300,16 @@ const getAttributes = (t, paths, tag, openingElementPath) => {
         throw new Error(`getAttributes (attribute): ${path.type} is not supported`)
     })
 
+    return buildAttrsExpr({ t, attributesArray, attributes })
+}
+
+const buildAttrsExpr = ({ t, attributesArray, attributes }: any) => {
     if (attributesArray.length > 0) {
         if (Object.keys(attributes).length > 0) {
             attributesArray.push(attributes)
         }
         return t.arrayExpression(
-            attributesArray.map(el => {
+            attributesArray.map((el: any) => {
                 if (el.type === needSpread) {
                     return el.argument
                 } else {
@@ -333,7 +329,7 @@ const getAttributes = (t, paths, tag, openingElementPath) => {
  * @param path JSXElement
  * @returns CallExpression
  */
-const transformJSXElement = (t, path, hExpr) => {
+const transformJSXElement = (t: any, path: any, hExpr: any) => {
     const openingElementPath = path.get('openingElement')
     const tag = getTag(t, openingElementPath)
     const children = getChildren(t, path.get('children'), hExpr)
@@ -350,13 +346,13 @@ const transformJSXElement = (t, path, hExpr) => {
     return t.callExpression(hExpr, args)
 }
 
-export default ({ types: t }) => {
+export default ({ types: t }: any) => {
 
     return {
         name: 'babel-plugin-transform-vue-jsx',
         inherits: syntaxJsx,
         visitor: {
-            JSXElement(path) {
+            JSXElement(path: any) {
                 // TODO: Configurable
                 const hExpr = t.memberExpression(t.identifier("GhostV"), t.identifier("createElement"))
 

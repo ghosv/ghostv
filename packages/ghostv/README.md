@@ -15,8 +15,21 @@ const C = () => {
     </div>
 }
 
-GhostV.render("#app", () => <div>
+GhostV.render(<div>
     <h1>Hello World!</h1>
     <C />
-</div>)
+</div>, "#app")
 ```
+
+TODO: 
++ [x] style string 支持
++ [x] comp
++ [ ] ctx
+    + [x] 基本功能
+    + [ ] 获取最近 Provider
++ [ ] hooks
+    + [x] useState
+    + [ ] useEffect
+    + [ ] useRef
++ [ ] vnode hook?
++ [ ] HMR

@@ -1,80 +1,115 @@
-import { init, h, thunk } from 'snabbdom'
+import {
+  useReducer,
+  useContext,
+  useState,
+  newStateStorage,
+  useEffect,
+  useRef,
+} from "./hooks"
+export {
+  useReducer,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+}
+
+import { VNode } from 'snabbdom/vnode'
 import toVNode from 'snabbdom/tovnode'
-import { VNode, VNodeData } from 'snabbdom/vnode'
 
-import moduleClass from 'snabbdom/modules/class'
-import moduleProps from 'snabbdom/modules/props'
-import moduleStyle from 'snabbdom/modules/style'
-import moduleAttributes from 'snabbdom/modules/attributes'
-import moduleEventListeners from 'snabbdom/modules/eventlisteners'
+import {
+  createElement,
+} from './pragma'
+import {
+  Component,
+  GhostVElement,
+} from './pragma/define'
+import elToVNode from './pragma/transform'
+import { patch } from './pragma/init'
 
-const patch = init([
-    moduleClass,
-    moduleProps,
-    moduleStyle,
-    moduleAttributes,
-    moduleEventListeners
-]);
+export function ghostVApp<P extends {}>(element: GhostVElement<P>) {
+  const point: any = {
+    sel: "",
+    origin: null,
+    node: null,
+  }
+  const updateGhostV = () => {
+    const { node: old } = point
+    const node = <VNode>elToVNode(element)
+    // console.log("updating", old, "=>", node)
+    point.node = patch(old, node)
+    // console.log("updated")
+  }
+  const useState = newStateStorage(updateGhostV)
 
-interface ComponentArgs extends VNodeData {
-    children: VNode[]
-}
-type FunctionalComponent = (args: ComponentArgs) => VNode
-
-//abstract class Component {
-//    abstract render(): VNode
-//}
-type GhostComponent = FunctionalComponent //| Component
-interface GhostNode {
-    sel: string;
-    children: GhostElement[] | undefined;
-}
-type GhostElement = GhostNode | string
-
-function render(comp: GhostComponent, el: any) {
-    const dom = document.querySelector(el)
-    if (!dom) {
-        throw `Selector(${el}) not found`
+  const unmount = () => {
+    if (point.sel === "") {
+      return
     }
-    const node = comp()//createElement(comp, {})
-    console.log(node)
-    patch(toVNode(dom), node)
-}
-
-function createElement(comp: GhostComponent | string, props: VNodeData | VNodeData[], ...children: VNode[]): VNode {
-    if (props.reduce) {
-        props = (<VNodeData[]>props).reduce<VNodeData>((o: VNodeData, v: VNodeData) => {
-            // TODO: namespace 智能合并
-            // var modulesNS = [<'hook'>,
-            // 'on', 'style', 'class', 'props', 'attrs', 'dataset'];
-            /**
-             * class
-             * props
-             * attrs
-             * dataset
-             * style
-             * on
-             */
-            const { on: oOn = {}, ...os } = o
-            const { on: vOn = {}, ...vs } = v
-            return Object.assign(os, vs, {
-                on: Object.assign(oOn, vOn)
-            });
-        }, {})
+    patch(point.node, toVNode(point.origin))
+    point.sel = ""
+    useState.flush()
+  }
+  const mount = (sel: string) => {
+    if (point.sel !== "") {
+      unmount()
     }
-    if (typeof comp === 'string') {
-        const sel = <string>comp
-        return h(sel, props, children)
+    const origin = document.querySelector(sel)
+    if (!origin) {
+      return `Selector(${sel}) not found`
     }
-    if (typeof comp === 'function') {
-        const Component = <FunctionalComponent>comp
-        return Component({ ...props, children })
-    }
-    throw `Component(${comp}) is undefined`
+    point.sel = sel
+    point.origin = origin
+    const node = <VNode>elToVNode(element)
+    point.node = patch(toVNode(origin), node)
+  }
+  return {
+    updateGhostV,
+    useState,
+    mount,
+    unmount,
+  }
 }
 
+function render<P extends {}>(element: GhostVElement<P>, sel: string) {
+  const { updateGhostV, mount } = ghostVApp(element);
+  (<any>window).updateGhostV = updateGhostV
+  mount(sel)
+}
+
+function createContext(defaultValue: any) {
+  let v = defaultValue
+  const Provider: Component<any> = ({ value, children, ...props }) => {
+    console.log("Provider", value, children)
+    v = value
+    return !children ? [] : children.map((child: any) => {
+      //child.props = {
+      //  dispatch: store.dispatch,
+      //  state: store.getState(),
+      //  ...child.props
+      //}
+      return child
+    })
+  }
+  const Consumer: Component<any> = ({ children, ...props }) => {
+    console.log("Consumer", children)
+    return !children ? [] : children.map((child: any) => {
+      child.props = {
+        ...child.props,
+        value: v,
+      }
+      return child
+    })
+  }
+  return {
+    Provider,
+    Consumer,
+  }
+}
 export default {
-    createElement,
+  createElement,
+  createContext,
 
-    render
+  render,
+  ghostVApp,
 }
